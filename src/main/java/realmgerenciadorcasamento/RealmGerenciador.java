@@ -78,7 +78,7 @@ public class RealmGerenciador extends AppservRealm
 
     public List<String> getGroupList(String username)
     {
-        System.out.println("no realmgerenciadorcasamento - metodo getGroupList: inicio");
+        System.out.println("no realmgerenciadorcasamento - metodo getGroupList: inicio getGroupList");
 
         Connection conn = null;
         PreparedStatement stmt = null;
@@ -88,7 +88,7 @@ public class RealmGerenciador extends AppservRealm
         try
         {
             conn = getConnection();
-            stmt = conn.prepareStatement("Select g.txt_nome from grupo as g, pessoa as p, pessoa_grupo as pg where p.id = pg.id_pessoa and g.id = pg.id_grupo and p.txt_email like ?");
+            stmt = conn.prepareStatement("Select g.txt_nome from repcasamento.GRUPO as g, repcasamento.PESSOA as p, repcasamento.pessoa_grupo as pg where p.id = pg.id_pessoa and g.id = pg.id_grupo and p.txt_email like ?");
             stmt.setString(1, username);
             rs = stmt.executeQuery();
 
@@ -104,7 +104,7 @@ public class RealmGerenciador extends AppservRealm
         } catch (SQLException ex)
         {
             System.out.println("no realmgerenciadorcasamento - metodo getGroupList: catch SQLException, causa do erro " + ex.getCause());
-            ex.getStackTrace();
+            ex.printStackTrace();
         } finally
         {
             close(rs, stmt, conn);
@@ -115,7 +115,7 @@ public class RealmGerenciador extends AppservRealm
 
     public boolean authenticateUser(String _username, String _password)
     {
-        System.out.println("no realmgerenciadorcasamento - metodo authenticateUser: inicio");
+        System.out.println("no realmgerenciadorcasamento - metodo authenticateUser: inicio authenticateUser");
 
         Encripta encripta = new Encripta();
         Connection conn = null;
@@ -126,7 +126,7 @@ public class RealmGerenciador extends AppservRealm
         try
         {
             conn = getConnection();
-            stmt = conn.prepareStatement("Select p.txt_senha, p.numero_numeroAleatorio from pessoa as p where p.txt_email like ?");
+            stmt = conn.prepareStatement("Select p.txt_senha, p.numero_numeroAleatorio from repcasamento.PESSOA as p where p.txt_email like ?");
             stmt.setString(1, _username);
             rs = stmt.executeQuery();
 
@@ -151,7 +151,7 @@ public class RealmGerenciador extends AppservRealm
             }
         } catch (SQLException ex)
         {
-            ex.getStackTrace();
+           ex.printStackTrace();
         } finally
         {
             close(rs, stmt, conn);
